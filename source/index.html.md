@@ -21,9 +21,7 @@ Start a new IOS Xcode project and at the root of the project create a folder cal
 Add the following frameworks to this folder and add them in the Link Binaries With Libraries section of the project. You will need to request these from TCS/SparkCompass
 
 * TCSAPI.framework
-* Common.framework
-* FYX.framework (for beacons)
-* NetworkServices.framework (for beacons)
+* Gimbal.framework (Only required for bluetooth beacons)
 
 Import the TCSAPI SDK
 
