@@ -196,24 +196,23 @@
   color: #f92672;
 }
     </style>
-    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
-    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all.js"></script>
+    <link href="stylesheets/screen-a1ce949a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-bccf8c07.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-c5541673.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;swift&quot;,&quot;android&quot;,&quot;javascript&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
-        <img src="images/navbar.png" alt="Navbar" />
+        <img src="images/navbar-cad8cdcb.png" alt="Navbar" />
       </span>
     </a>
     <div class="toc-wrapper">
-      <img src="images/logo.png" class="logo" alt="Logo" />
+      <img src="images/logo-9c311519.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="swift">swift</a>
+              <a href="#" data-language-name="android">android</a>
               <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
@@ -222,281 +221,242 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+            <a href="#getting-started" class="toc-h1 toc-link" data-title="Getting Started">Getting Started</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+            <a href="#initialization" class="toc-h1 toc-link" data-title="Initialization">Initialization</a>
           </li>
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#starting-the-sdk" class="toc-h1 toc-link" data-title="Starting the SDK">Starting the SDK</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#begin" class="toc-h2 toc-link" data-title="Begin">Begin</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
-                  </li>
-                  <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#appinstance-active" class="toc-h2 toc-link" data-title="AppInstance Active">AppInstance Active</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+            <a href="#events-and-actions" class="toc-h1 toc-link" data-title="Events and Actions">Events and Actions</a>
+          </li>
+          <li>
+            <a href="#platform-requests" class="toc-h1 toc-link" data-title="Platform Requests">Platform Requests</a>
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+        <h1 id='getting-started'>Getting Started</h1>
+<p>Start a new IOS Xcode project and at the root of the project create a folder called frameworks to keep Frameworks that we will add in.</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>Add the following frameworks to this folder and add them in the Link Binaries With Libraries section of the project. You will need to request these from TCS/SparkCompass</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
+<ul>
+<li>TCSAPI.framework</li>
+<li>Common.framework</li>
+<li>FYX.framework (for beacons)</li>
+<li>NetworkServices.framework (for beacons)</li>
+</ul>
+
+<p>Import the TCSAPI SDK</p>
+<pre class="highlight swift tab-swift"><code><span class="c1">//Add to the swit bridging header eg. in Project-Bridging-Header.h</span>
+<span class="cp">#import &lt;TCSAPI/TCSAPI.h&gt;</span>
+
+</code></pre>
+<p>The following background modes and data protection are required:</p>
+
+<ul>
+<li>Uses Bluetooth LE Accessories</li>
+<li>Remote Notifications</li>
+<li>Data Protection</li>
+</ul>
+<h1 id='initialization'>Initialization</h1>
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>To initialise, use this code:</p>
 </blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<pre class="highlight swift tab-swift"><code><span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">UIResponder</span><span class="p">,</span> <span class="kt">UIApplicationDelegate</span> <span class="p">{</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+    <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="kt">TCSAppInstance</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="n">appUID</span> <span class="o">=</span> <span class="s">"&lt;appuid&gt;"</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+        <span class="k">let</span> <span class="nv">instance</span><span class="p">:</span><span class="kt">TCSAPIConnector</span> <span class="o">=</span> <span class="kt">TCSAPIConnector</span><span class="o">.</span><span class="nf">instance</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">TCSAPIConnector</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">appUrl</span> <span class="o">=</span> <span class="s">"https://&lt;domain.sparkcompass.com&gt;"</span> <span class="c1">// You will be provided a domain</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">baseUrl</span> <span class="o">=</span> <span class="s">"https://&lt;domain.sparkcompass.com&gt;"</span> <span class="c1">// You will be provided a domain</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
+        <span class="c1">//SDK requires local notifications to deliver certain messaging types.</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">_</span> <span class="o">=</span> <span class="n">launchOptions</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">localnotif</span><span class="p">:</span><span class="kt">UILocalNotification</span><span class="p">?</span> <span class="o">=</span> <span class="n">launchOptions</span><span class="p">?[</span><span class="kt">UIApplicationLaunchOptionsLocalNotificationKey</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">UILocalNotification</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">localnotif</span> <span class="o">!=</span> <span class="kc">nil</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">TCSAppInstance</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">receivedLocalNotification</span><span class="p">(</span><span class="n">localnotif</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="o">...</span>
+    <span class="p">}</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</code></pre><pre class="highlight plaintext"><code>
+</code></pre><pre class="highlight javascript tab-javascript"><code>
 </code></pre>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>Make sure to replace <code>&lt;appuid&gt;</code> with the appUid we supply you.</p>
 </blockquote>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>SparkCompass uses an appUid to allow access to the API. You will be supplied with your AppUid when we set up your account. You will also be supplied with a subdomain to connect to.</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>Supply the AppUid and Subdomain as shown in the code examples to initialise the SDK.</p>
 
-<p><code>Authorization: meowmeowmeow</code></p>
+<p>The following section describes how to connect to the platform.</p>
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>`appuid`</code> with the appUid we supply you.
 </aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='starting-the-sdk'>Starting the SDK</h1><h2 id='begin'>Begin</h2>
+<p>After the app starts and the above initialization is completed, the SDK has to be started to initialize the connection with the platform.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
+<p>This should occur anytime the app is started from a not running state. Ie does not have to be called everytime the App wakes from the background.</p>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
+<p>This connects to the platform and identifies this device as having access. </p>
+<pre class="highlight swift tab-swift"><code><span class="c1">//An example placed in AppDelegate</span>
+<span class="c1">//Typically this may go elsewhere after confirmation of EULA</span>
 
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
-</code></pre>
+ <span class="kd">func</span> <span class="nf">applicationDidBecomeActive</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//If the appInstance is not active then attempt to activate it.</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="kt">TCSAppInstance</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">isAppActive</span><span class="p">()){</span>
+        <span class="kt">TCSAppInstance</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="n">beginWithCompletion</span> <span class="p">{</span> <span class="p">(</span><span class="nv">success</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">reply</span><span class="p">:</span> <span class="kt">String</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// Can now make other API calls to the platform</span>
+                <span class="c1">// TCSAppInstance.sharedInstance().isAppActive() returns true</span>
+                <span class="c1">// The SDK will also send a "APPINSTANCE_ACTIVE" NSNotification when ready</span>
+
+
+                <span class="kt">TCSAppInstance</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">updateRegisteredTokenApp</span><span class="p">()</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">reply</span> <span class="o">==</span> <span class="s">"EULANOTACCEPTED"</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">self</span><span class="o">.</span><span class="nf">promptToAcceptEULA</span><span class="p">()</span> <span class="c1">// Eula must be accepted prior to begin</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">reply</span> <span class="o">==</span> <span class="s">"APPLICATION_ERROR"</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="c1">// Some problem with the AppUID.</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre><h2 id='appinstance-active'>AppInstance Active</h2>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>You can check whether the AppInstance has begun correctly and is ready to make API calls to the platform using the following:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<pre class="highlight swift tab-swift"><code><span class="kt">TCSAppInstance</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">isAppActive</span><span class="p">()</span>
 </code></pre>
+<p>The AppInstance will post a Notification to the notification center to alert other listeners to the fact that the AppInstance is ready to go. Classes or Controllers that exist at startup and want to make requests using the AppInstance need to wait until it is ready. You can subscribe for the following notification if you want your class to be notfied when the TCSAppInstance is ready. Note this is only a consideration when the app loads new, not when it wakes from the background. <code>APPINSTANCE_ACTIVE</code></p>
+
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Register for the Nofitication <code>APPINSTANCE_ACTIVE</code> if required</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<pre class="highlight swift tab-swift"><code><span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> 
+    <span class="nv">selector</span><span class="p">:</span> <span class="kd">#selector(</span><span class="nf">&lt;your-selector&gt;</span><span class="kd">)</span><span class="p">,</span> 
+    <span class="nv">name</span><span class="p">:</span> <span class="s">"APPINSTANCE_ACTIVE"</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 </code></pre>
+<p>Also you can now make other calls to the platform, since the SDK is now initialised with a valid appInstance. If this is a new install, a new AppInstance will be created on the Platform. If this is an existing install (app restarted) or a reinstall then the existing appInstance will be used.</p>
+
+<p>After connection with the platform and also everytime the wakes from the background the SDK will sync to the latest notify action definitions, menu definitions, geolocations, and beacons. It will also begin generating events automatically for various interactions - see Sending Events.</p>
+<h1 id='events-and-actions'>Events and Actions</h1>
+<p>The SDK will start sending events once it is running, such as when the app is opened, when the device enters or exits a geofence, enters/exits or dwells in proximity of a beacon, scans an image target. Custom events can also be sent from your app.</p>
+
+<p>Events that go to the platform can have actiontriggers attached which conditionally trigger actions based on some criteria. Actions are behaviours for the app to perform and are returned as a response to a submitted event.</p>
+
+<p>To receive actions and act on them you need to set up an appActionDelegate. This should be a class or controller that persists throughout the application. Perhaps a singleton class or base ViewController.</p>
+
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Set up an AppActionDelegate</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
-</tr>
-</tbody></table>
-<h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
+<pre class="highlight swift tab-swift"><code><span class="kt">TCSAppInstance</span><span class="o">.</span><span class="nf">sharedInstance</span><span class="p">()</span><span class="o">.</span><span class="n">appActionDelegate</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">your</span> <span class="n">delegate</span><span class="o">&gt;</span> <span class="p">(</span><span class="kt">AppActionDelegate</span><span class="p">)</span>
+</code></pre>
+<p>The AppActionDelegate should implement <code>didReceiveAppAction</code>. Actions will be returned by the platform as a response to events sent by the sdk. The actions are configured on the platform to have various types and notification behaviours.</p>
 
-<p>The Kittn API uses the following error codes:</p>
+<p>An Action has an Action type and a Notification type. The Action Type defines the behaviour when enacted on the device, where as the Notification type defines how or if the user is Notified about its arrival.</p>
 
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-</tbody></table>
+<p>The Action Types are as follows</p>
+
+<ul>
+<li>  Notification Message - A simple message Notification with Title and Message. It is presented to the user accoring to the Notification Behaviour</li>
+<li>  App Page - Notification Message that can redirect to another page in the app based on the Notification Type of the action. </li>
+<li>  Webview with URL - Notification Message that can redirect to a webview and open a web page in the app based on the Notification Type of the action.</li>
+<li>  Webview with Content - Notification Message with some content that may be opened in a webview or may provide some custom input data.</li>
+</ul>
+
+<p>The Notification Types of Actions are as follows</p>
+
+<ul>
+<li>  Notification with alert - actively presents an alert in the foreground or background to the user to alert them immediately and give an opportunity to confirm the action (for high priority actions). This performs the action on confirmation.</li>
+<li>  Slient Notification - accumulates the action silently. Can be made available to the user in a notification list when the user next uses the app (for lower priority actions). This performs the action if the user chooses to open the notification in the feed.</li>
+<li>  No Notification - immediately forwards the action to the app without notifying the user first. Only used in certain senarios where this is desireable. This performs the action immediately when it arrives.</li>
+</ul>
+
+<p>A typical flow from an event to an action would be as follows. A user enters a GeoFence and the SDK sends a Geofence entry event to the platform. There are one or more ActionTriggers set up for the entry event for that geofence on the platform. Depending on the filter settings on the action triggers, one or more actions may be triggered and returned to the app. Depending on the type of action and the configuration of the action, the sdk and your app will enact the action.</p>
+
+<blockquote>
+<p>Implement <code>didReceiveAppAction</code> in your AppActionDelegate</p>
+</blockquote>
+<pre class="highlight swift tab-swift"><code><span class="c1">// Example of response to actions forwarded by the SDK</span>
+<span class="o">-</span><span class="p">(</span><span class="n">void</span><span class="p">)</span><span class="nv">didReceiveAppAction</span><span class="p">:(</span><span class="kt">TCSAppAction</span> <span class="o">*</span><span class="p">)</span><span class="n">action</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">appActionLock</span> <span class="n">lock</span><span class="p">];</span> <span class="c1">// NSLock to keep from processing two actions simultaneously.</span>
+    <span class="k">switch</span><span class="p">(</span><span class="n">action</span><span class="o">.</span><span class="n">actionType</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="kt">ATYPE_APPAGE</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="kt">NSString</span><span class="o">*</span> <span class="n">appPage</span> <span class="o">=</span> <span class="p">[</span><span class="n">action</span> <span class="nv">getParamValueForKey</span><span class="p">:</span><span class="s">@"AppPage"</span><span class="p">];</span>
+            <span class="k">if</span><span class="p">([</span><span class="n">appPage</span> <span class="nv">isEqualToString</span><span class="p">:</span><span class="s">@"HOME"</span><span class="p">])</span> <span class="p">{</span>
+                <span class="p">[</span><span class="k">self</span> <span class="nv">goToHome</span><span class="p">:</span><span class="n">action</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">([</span><span class="n">appPage</span> <span class="nv">isEqualToString</span><span class="p">:</span><span class="s">@"MAP"</span><span class="p">])</span> <span class="p">{</span>
+                <span class="p">[</span><span class="k">self</span> <span class="nv">goToMap</span><span class="p">:</span><span class="n">action</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">([</span><span class="n">appPage</span> <span class="nv">isEqualToString</span><span class="p">:</span><span class="s">@"PROFILE"</span><span class="p">])</span> <span class="p">{</span>
+                <span class="p">[</span><span class="k">self</span> <span class="nv">goToProfile</span><span class="p">:</span><span class="n">action</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">([</span><span class="n">appPage</span> <span class="nv">isEqualToString</span><span class="p">:</span><span class="s">@"SETTINGS"</span><span class="p">])</span> <span class="p">{</span>
+                <span class="p">[</span><span class="k">self</span> <span class="nv">goToSettings</span><span class="p">:</span><span class="n">action</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">([</span><span class="n">appPage</span> <span class="nv">isEqualToString</span><span class="p">:</span><span class="s">@"CONTACT"</span><span class="p">]){</span>
+                <span class="p">[</span><span class="k">self</span> <span class="n">sendEmail</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">([</span><span class="n">appPage</span> <span class="nv">isEqualToString</span><span class="p">:</span><span class="s">@"IMAGE_RECOGNITION"</span><span class="p">]){</span>
+                <span class="p">[</span><span class="k">self</span> <span class="nv">goToAR</span><span class="p">:</span><span class="n">action</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">([</span> <span class="n">appPage</span> <span class="nv">isEqualToString</span><span class="p">:</span><span class="s">@"SWITCH_APP"</span><span class="p">]){</span>
+                <span class="p">[</span><span class="k">self</span> <span class="nv">goToFeaturedEvents</span><span class="p">:</span><span class="kt">YES</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">if</span><span class="p">([</span><span class="n">appPage</span> <span class="nv">isEqualToString</span><span class="p">:</span><span class="s">@"EVENT"</span><span class="p">]){</span>
+                <span class="p">[</span><span class="k">self</span> <span class="n">goToEvents</span><span class="p">];</span>
+            <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">case</span> <span class="kt">ATYPE_WEBURL</span><span class="p">:</span>
+            <span class="kt">NSString</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">action</span> <span class="nv">getParamValueForKey</span><span class="p">:</span><span class="s">@"Url"</span><span class="p">];</span>
+            <span class="c1">//Launch a webview with the url</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="kt">ATYPE_WEBCONTENT</span><span class="p">:{</span>
+            <span class="kt">NSString</span><span class="o">*</span> <span class="n">htmlContent</span> <span class="o">=</span> <span class="p">[</span><span class="n">action</span> <span class="nv">getParamValueForKey</span><span class="p">:</span><span class="s">@"HtmlContent"</span><span class="p">];</span>
+            <span class="c1">//Do Something with the content</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">default</span><span class="p">:</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">[</span><span class="n">appActionLock</span> <span class="n">unlock</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre><h1 id='platform-requests'>Platform Requests</h1>
+<p>Requests can be made to the platform to sync various items like calendars, events, exhibitors/speakers, Banner menus for the home screen.</p>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-name="swift">swift</a>
+                <a href="#" data-language-name="android">android</a>
                 <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
