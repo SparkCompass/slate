@@ -241,6 +241,9 @@
             <a href="#events-and-actions" class="toc-h1 toc-link" data-title="Events and Actions">Events and Actions</a>
           </li>
           <li>
+            <a href="#api-extension-for-custom-endpoints" class="toc-h1 toc-link" data-title="Api Extension for custom endpoints">Api Extension for custom endpoints</a>
+          </li>
+          <li>
             <a href="#platform-requests" class="toc-h1 toc-link" data-title="Platform Requests">Platform Requests</a>
           </li>
       </ul>
@@ -447,6 +450,128 @@ You must replace <code>`appuid`</code> with the appUid we supply you.
         <span class="p">}</span>
     <span class="p">[</span><span class="n">appActionLock</span> <span class="n">unlock</span><span class="p">];</span>
 <span class="p">}</span>
+</code></pre><h1 id='api-extension-for-custom-endpoints'>Api Extension for custom endpoints</h1>
+<p>Implement the TCSAPIExtender to add API calls that are not part of the Core SDK.</p>
+
+<p>It can be convenient to make a Singlton Class where you add the implementation of the call and response implementation of the API call and then pass the data back to your app using a callback as shown.</p>
+
+<blockquote>
+<p>You can create an Api Extender as follows by using TCSApiExtender interface</p>
+</blockquote>
+<pre class="highlight swift tab-swift"><code><span class="kd">class</span> <span class="kt">ExtenderAPI</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">TCSAPIExtender</span> <span class="p">{</span>
+
+    <span class="c1">//Set up as Singleton so it can be used anywhere in your code</span>
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">shared</span><span class="p">:</span> <span class="kt">RebelRewardsAPI</span> <span class="o">=</span> <span class="p">{</span>
+       <span class="k">let</span> <span class="nv">instance</span> <span class="o">=</span> <span class="kt">ExtendedAPI</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">instance</span>
+    <span class="p">}()</span>
+
+    <span class="c1">//Create labels for the EndPoints</span>
+    <span class="kd">private</span> <span class="k">let</span> <span class="nv">ExampleGetEndpoint</span> <span class="o">=</span> <span class="s">"ExampleGetEndpoint"</span>
+    <span class="kd">private</span> <span class="k">let</span> <span class="nv">ExamplePostEndpoint</span> <span class="o">=</span> <span class="s">"ExamplePostEndpoint"</span>
+
+    <span class="c1">//Implement this function from the interface to define endpoints</span>
+    <span class="kd">func</span> <span class="nf">getTCSAPICallDefinitions</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">AnyHashable</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">pathDefinitions</span> <span class="o">=</span> <span class="p">[</span><span class="kt">AnyHashable</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]()</span>
+        <span class="k">var</span> <span class="nv">definition</span><span class="p">:</span> <span class="kt">TCSAPICallDefinition</span>
+
+        <span class="k">var</span> <span class="nv">keyExists</span> <span class="o">=</span> <span class="n">pathDefinitions</span><span class="p">[</span><span class="kt">ExampleGetEndpoint</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">nil</span>
+        <span class="k">if</span> <span class="o">!</span><span class="n">keyExists</span> <span class="p">{</span>
+            <span class="n">definition</span> <span class="o">=</span> <span class="kt">TCSAPICallDefinition</span><span class="p">(</span><span class="nv">versionPath</span><span class="p">:</span> <span class="s">"/api/1"</span><span class="p">,</span> <span class="nv">path</span><span class="p">:</span> <span class="s">"/example/get"</span><span class="p">,</span> <span class="nv">andMethod</span><span class="p">:</span> <span class="kt">GET</span><span class="p">)</span>
+            <span class="n">pathDefinitions</span><span class="p">[</span><span class="kt">ExampleGetEndpoint</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span>
+        <span class="p">}</span>
+
+        <span class="n">keyExists</span> <span class="o">=</span> <span class="n">pathDefinitions</span><span class="p">[</span><span class="kt">ExampleGetEndpoint</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">nil</span>
+        <span class="k">if</span> <span class="o">!</span><span class="n">keyExists</span> <span class="p">{</span>
+            <span class="n">definition</span> <span class="o">=</span> <span class="kt">TCSAPICallDefinition</span><span class="p">(</span><span class="nv">versionPath</span><span class="p">:</span> <span class="s">"/api/1"</span><span class="p">,</span> <span class="nv">path</span><span class="p">:</span> <span class="s">"/example/post"</span><span class="p">,</span> <span class="nv">andMethod</span><span class="p">:</span> <span class="kt">POST</span><span class="p">)</span>
+            <span class="n">pathDefinitions</span><span class="p">[</span><span class="kt">ExampleGetEndpoint</span><span class="p">]</span> <span class="o">=</span> <span class="n">definition</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">pathDefinitions</span>
+    <span class="p">}</span>
+
+
+    <span class="cm">/**
+    *   Check the TCSUrlConnection class for DataCallback, ListCallback definitions.
+    */</span>
+    <span class="kd">func</span> <span class="nf">postExample</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">DataCallback</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//Create RequestArgs object and set values</span>
+        <span class="k">let</span> <span class="nv">requestArgs</span> <span class="o">=</span> <span class="kt">TCSRequestArgs</span><span class="p">()</span>
+        <span class="n">requestArgs</span><span class="o">.</span><span class="n">requestType</span> <span class="o">=</span> <span class="kt">ExampleGetEndpoint</span>
+
+        <span class="k">var</span> <span class="nv">itemDictionary</span> <span class="o">=</span> <span class="p">[</span><span class="kt">AnyHashable</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]()</span>
+
+        <span class="c1">//Set any POST data structure to a dictionary</span>
+        <span class="n">itemDictionary</span><span class="p">[</span><span class="s">"message"</span><span class="p">]</span> <span class="o">=</span> <span class="n">message</span>
+
+        <span class="n">requestArgs</span><span class="o">.</span><span class="n">payload</span> <span class="o">=</span> <span class="n">itemDictionary</span>
+        <span class="c1">//Supply a callback</span>
+        <span class="n">requestArgs</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">httpCode</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+
+            <span class="c1">//Process the response</span>
+            <span class="k">if</span> <span class="n">error</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="n">httpCode</span> <span class="o">==</span> <span class="mi">200</span> <span class="p">{</span>
+                <span class="k">do</span> <span class="p">{</span>
+                    <span class="k">let</span> <span class="nv">itemDictionary</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">JSONSerialization</span><span class="o">.</span><span class="nf">jsonObject</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">data</span><span class="o">!</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="n">mutableContainers</span><span class="p">)</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">AnyHashable</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span>
+
+                    <span class="k">let</span> <span class="nv">template</span> <span class="o">=</span> <span class="n">itemDictionary</span>
+                    <span class="nf">callback</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
+                <span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">anError</span> <span class="k">as</span> <span class="kt">NSError</span> <span class="p">{</span>
+                    <span class="nf">callback</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span> <span class="n">anError</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nf">callback</span><span class="p">(</span><span class="kc">nil</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="p">(</span><span class="kt">TCSAPIConnector</span><span class="o">.</span><span class="nf">instance</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">TCSAPIConnector</span><span class="p">)</span><span class="o">.</span><span class="nf">request</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">requestArgs</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">getExample</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">ListCallback</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">requestArgs</span> <span class="o">=</span> <span class="kt">TCSRequestArgs</span><span class="p">()</span>
+        <span class="n">requestArgs</span><span class="o">.</span><span class="n">requestType</span> <span class="o">=</span> <span class="kt">ExampleGetEndpoint</span>
+        <span class="n">requestArgs</span><span class="o">.</span><span class="n">payload</span> <span class="o">=</span> <span class="p">[</span><span class="kt">AnyHashable</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]()</span>
+
+        <span class="n">requestArgs</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="p">{</span> <span class="p">(</span><span class="n">connection</span><span class="p">,</span> <span class="n">httpCode</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+            <span class="k">var</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span>
+            <span class="k">var</span> <span class="nv">rewards</span> <span class="o">=</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]()</span>
+            <span class="k">if</span> <span class="n">error</span> <span class="o">==</span> <span class="kc">nil</span> <span class="o">&amp;&amp;</span> <span class="n">httpCode</span> <span class="o">==</span> <span class="mi">200</span> <span class="p">{</span>
+                <span class="k">do</span> <span class="p">{</span>
+                    <span class="k">let</span> <span class="nv">itemDictionary</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">JSONSerialization</span><span class="o">.</span><span class="nf">jsonObject</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">data</span><span class="o">!</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="n">mutableContainers</span><span class="p">)</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">AnyHashable</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span>
+                    <span class="n">rewards</span> <span class="o">=</span> <span class="n">itemDictionary</span><span class="p">[</span><span class="s">"rewards"</span><span class="p">]</span> <span class="k">as!</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span> 
+                <span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">anError</span> <span class="k">as</span> <span class="kt">NSError</span> <span class="p">{</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="n">anError</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="nf">callback</span><span class="p">(</span><span class="n">rewards</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="p">(</span><span class="kt">TCSAPIConnector</span><span class="o">.</span><span class="nf">instance</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">TCSAPIConnector</span><span class="p">)</span><span class="o">.</span><span class="nf">request</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">requestArgs</span><span class="p">)</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+<blockquote>
+<p>In AppDelegate add the ApiExtender to TCS</p>
+</blockquote>
+<pre class="highlight swift tab-swift"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIApplicationLaunchOptionsKey</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="c1">//... </span>
+    <span class="p">(</span><span class="kt">TCSAPIConnector</span><span class="o">.</span><span class="nf">instance</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">TCSAPIConnector</span><span class="p">)</span><span class="o">.</span><span class="nf">extendsAPI</span><span class="p">(</span><span class="kt">ExtenderAPI</span><span class="o">.</span><span class="n">shared</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Use the APIExtensions in your code</p>
+</blockquote>
+<pre class="highlight swift tab-swift"><code><span class="kt">ExtenderAPI</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">getExample</span><span class="p">(</span><span class="nv">callback</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="n">list</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">if</span> <span class="n">error</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="o">||</span> <span class="n">list</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">list</span><span class="o">!</span> <span class="p">{</span>
+
+    <span class="p">}</span>
+<span class="p">})</span>
 </code></pre><h1 id='platform-requests'>Platform Requests</h1>
 <p>Requests can be made to the platform to sync various items like calendars, events, exhibitors/speakers, Banner menus for the home screen.</p>
 
