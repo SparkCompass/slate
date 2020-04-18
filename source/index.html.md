@@ -233,7 +233,7 @@ Implement the TCSAPIExtender to add API calls that are not part of the Core SDK.
 
 It can be convenient to make a Singlton Class where you add the implementation of the call and response implementation of the API call and then pass the data back to your app using a callback as shown.
 
->You can create an Api Extender as follows by using TCSApiExtender interface
+>You can create an Api Extender as follows by using TCSApiExtender interface in both IOS and Android
 
 ```swift
 class ExtenderAPI : NSObject, TCSAPIExtender {
@@ -331,6 +331,7 @@ class ExtenderAPI : NSObject, TCSAPIExtender {
 ```
 
 ```java
+//Create a class for extending the API
 public class ExtenderAPI implements TCSAPIExtender {
 
     private static ExtenderAPI instance;
@@ -458,7 +459,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 ```
 ```java
 //Add when initialising TCSAPI AppUrl and ApiKey
-TCSAPIConnector.getInstance().extendAPI(RebelRewardsAPI.getInstance());
+TCSAPIConnector.getInstance().extendAPI(ExtenderAPI.getInstance());
 ```
 
 >Use the APIExtensions in your code
@@ -475,7 +476,7 @@ ExtenderAPI.shared.getExample(callback: { (list, error) in
 })
 ```
 ```java
-RebelRewardsAPI.getInstance().getExample( new TCSDataReturnedDelegate() {
+ExtenderAPI.getInstance().getExample( new TCSDataReturnedDelegate() {
     @Override
     public void done(JSONObject data, Error error) {
         if (error == null) {
