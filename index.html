@@ -456,7 +456,7 @@ You must replace <code>`appuid`</code> with the appUid we supply you.
 <p>It can be convenient to make a Singlton Class where you add the implementation of the call and response implementation of the API call and then pass the data back to your app using a callback as shown.</p>
 
 <blockquote>
-<p>You can create an Api Extender as follows by using TCSApiExtender interface</p>
+<p>You can create an Api Extender as follows by using TCSApiExtender interface in both IOS and Android</p>
 </blockquote>
 <pre class="highlight swift tab-swift"><code><span class="kd">class</span> <span class="kt">ExtenderAPI</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">TCSAPIExtender</span> <span class="p">{</span>
 
@@ -550,7 +550,8 @@ You must replace <code>`appuid`</code> with the appUid we supply you.
 
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre><pre class="highlight java tab-java"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExtenderAPI</span> <span class="kd">implements</span> <span class="n">TCSAPIExtender</span> <span class="o">{</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="c1">//Create a class for extending the API</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExtenderAPI</span> <span class="kd">implements</span> <span class="n">TCSAPIExtender</span> <span class="o">{</span>
 
     <span class="kd">private</span> <span class="kd">static</span> <span class="n">ExtenderAPI</span> <span class="n">instance</span><span class="o">;</span>
     <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">ERROR_REQUEST_FAILED</span> <span class="o">=</span> <span class="s">"Error_Request_Failed"</span><span class="o">;</span>
@@ -674,7 +675,7 @@ You must replace <code>`appuid`</code> with the appUid we supply you.
     <span class="p">(</span><span class="kt">TCSAPIConnector</span><span class="o">.</span><span class="nf">instance</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">TCSAPIConnector</span><span class="p">)</span><span class="o">.</span><span class="nf">extendsAPI</span><span class="p">(</span><span class="kt">ExtenderAPI</span><span class="o">.</span><span class="n">shared</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre><pre class="highlight java tab-java"><code><span class="c1">//Add when initialising TCSAPI AppUrl and ApiKey</span>
-<span class="n">TCSAPIConnector</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">extendAPI</span><span class="o">(</span><span class="n">RebelRewardsAPI</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+<span class="n">TCSAPIConnector</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">extendAPI</span><span class="o">(</span><span class="n">ExtenderAPI</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
 </code></pre>
 <blockquote>
 <p>Use the APIExtensions in your code</p>
@@ -688,7 +689,7 @@ You must replace <code>`appuid`</code> with the appUid we supply you.
 
     <span class="p">}</span>
 <span class="p">})</span>
-</code></pre><pre class="highlight java tab-java"><code><span class="n">RebelRewardsAPI</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">getExample</span><span class="o">(</span> <span class="k">new</span> <span class="n">TCSDataReturnedDelegate</span><span class="o">()</span> <span class="o">{</span>
+</code></pre><pre class="highlight java tab-java"><code><span class="n">ExtenderAPI</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">getExample</span><span class="o">(</span> <span class="k">new</span> <span class="n">TCSDataReturnedDelegate</span><span class="o">()</span> <span class="o">{</span>
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">done</span><span class="o">(</span><span class="n">JSONObject</span> <span class="n">data</span><span class="o">,</span> <span class="n">Error</span> <span class="n">error</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">error</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
