@@ -227,6 +227,135 @@ A typical flow from an event to an action would be as follows. A user enters a G
 }
 ```
 
+#Api Extension for custom endpoints
+
+Implement the TCSAPIExtender to add API calls that are not part of the Core SDK.
+
+It can be convenient to make a Singlton Class where you add the implementation of the call and response implementation of the API call and then pass the data back to your app using a callback as shown.
+
+>You can create an Api Extender as follows by using TCSApiExtender interface
+
+```swift
+class ExtenderAPI : NSObject, TCSAPIExtender {
+    
+    //Set up as Singleton so it can be used anywhere in your code
+    static let shared: RebelRewardsAPI = {
+       let instance = ExtendedAPI()
+        return instance
+    }()
+    
+    //Create labels for the EndPoints
+    private let ExampleGetEndpoint = "ExampleGetEndpoint"
+    private let ExamplePostEndpoint = "ExamplePostEndpoint"
+
+    //Implement this function from the interface to define endpoints
+    func getTCSAPICallDefinitions() -> [AnyHashable : Any] {
+        var pathDefinitions = [AnyHashable: Any]()
+        var definition: TCSAPICallDefinition
+        
+        var keyExists = pathDefinitions[ExampleGetEndpoint] != nil
+        if !keyExists {
+            definition = TCSAPICallDefinition(versionPath: "/api/1", path: "/example/get", andMethod: GET)
+            pathDefinitions[ExampleGetEndpoint] = definition
+        }
+
+        keyExists = pathDefinitions[ExampleGetEndpoint] != nil
+        if !keyExists {
+            definition = TCSAPICallDefinition(versionPath: "/api/1", path: "/example/post", andMethod: POST)
+            pathDefinitions[ExampleGetEndpoint] = definition
+        }
+        
+        return pathDefinitions
+    }
+    
+
+    /**
+    *   Check the TCSUrlConnection class for DataCallback, ListCallback definitions.
+    */
+    func postExample(message: String, callback: @escaping DataCallback) {
+        //Create RequestArgs object and set values
+        let requestArgs = TCSRequestArgs()
+        requestArgs.requestType = ExampleGetEndpoint
+        
+        var itemDictionary = [AnyHashable: Any]()
+        
+        //Set any POST data structure to a dictionary
+        itemDictionary["message"] = message
+        
+        requestArgs.payload = itemDictionary
+        //Supply a callback
+        requestArgs.callback = {
+            (connection, httpCode, data, error) in
+
+            //Process the response
+            if error == nil && httpCode == 200 {
+                do {
+                    let itemDictionary = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [AnyHashable : Any]
+                    
+                    let template = itemDictionary
+                    callback(template, nil)
+                } catch let anError as NSError {
+                    callback(nil, anError)
+                }
+            } else {
+                callback(nil, error)
+            }
+        }
+        
+        (TCSAPIConnector.instance() as! TCSAPIConnector).request(with: requestArgs)
+    }
+    
+    func getExample(callback: @escaping ListCallback) {
+        let requestArgs = TCSRequestArgs()
+        requestArgs.requestType = ExampleGetEndpoint
+        requestArgs.payload = [AnyHashable : Any]()
+        
+        requestArgs.callback = { (connection, httpCode, data, error) in
+            var error = error
+            var rewards = [AnyObject]()
+            if error == nil && httpCode == 200 {
+                do {
+                    let itemDictionary = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [AnyHashable : Any]
+                    rewards = itemDictionary["rewards"] as! [AnyObject] 
+                } catch let anError as NSError {
+                    error = anError
+                }
+            }
+            callback(rewards, error)
+        }
+        
+        (TCSAPIConnector.instance() as! TCSAPIConnector).request(with: requestArgs)
+        
+    }
+}
+
+```
+>In AppDelegate add the ApiExtender to TCS
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    //... 
+    (TCSAPIConnector.instance() as! TCSAPIConnector).extendsAPI(ExtenderAPI.shared)
+}
+```
+
+>Use the APIExtensions in your code
+
+```swift
+ExtenderAPI.shared.getExample(callback: { (list, error) in
+    if error != nil || list == nil {
+        return
+    }
+    
+    for item in list! {
+
+    }
+})
+```
+
+
+
+
 #Platform Requests
 
 Requests can be made to the platform to sync various items like calendars, events, exhibitors/speakers, Banner menus for the home screen.
