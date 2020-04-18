@@ -3,7 +3,7 @@ title: API Reference
 
 language_tabs:
   - swift
-  - android
+  - java
   - javascript
 
 toc_footers:
@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-```android
+```java
 
 ```
 
@@ -239,7 +239,7 @@ It can be convenient to make a Singlton Class where you add the implementation o
 class ExtenderAPI : NSObject, TCSAPIExtender {
     
     //Set up as Singleton so it can be used anywhere in your code
-    static let shared: RebelRewardsAPI = {
+    static let shared: ExtenderAPI = {
        let instance = ExtendedAPI()
         return instance
     }()
@@ -328,15 +328,137 @@ class ExtenderAPI : NSObject, TCSAPIExtender {
         
     }
 }
-
 ```
->In AppDelegate add the ApiExtender to TCS
+
+```java
+public class ExtenderAPI implements TCSAPIExtender {
+
+    private static ExtenderAPI instance;
+    public static final String ERROR_REQUEST_FAILED = "Error_Request_Failed";
+
+    public static final String GETEXAMPLE = "GetExample";
+    public static final String POSTEXAMPLE = "PostExample";
+
+    public static ExtenderAPI getInstance() {
+        if (instance == null) {
+            instance = new ExtenderAPI();
+        }
+        return instance;
+    }
+
+    @Override
+    public Map<String, TCSAPICallDefinition> getTCSAPICallDefinitions() {
+
+        Map<String, TCSAPICallDefinition> pathDefinitions = new HashMap<>();
+        TCSAPICallDefinition definition;
+
+        if (!pathDefinitions.containsKey(GETRREVENTS)) {
+            definition = new TCSAPICallDefinition("/api/1", "/events", TCSAPIConstants.TCSRequestMethod.GET);
+            pathDefinitions.put(GETRREVENTS, definition);
+        }
+
+        if (!pathDefinitions.containsKey(POSTMISSEDPOINTSREQUEST)) {
+            definition = new TCSAPICallDefinition("/api/1", "/points/missedpointsrequest", TCSAPIConstants.TCSRequestMethod.POST);
+            pathDefinitions.put(POSTMISSEDPOINTSREQUEST, definition);
+        }
+
+        return pathDefinitions;
+    }
+
+    public void postExample(String message, final TCSDataReturnedDelegate delegate) {
+        TCSRequestArgs requestArgs = new TCSRequestArgs();
+        requestArgs.requestType = ExtenderAPI.POSTEXAMPLE;
+
+        JSONObject values = new JSONObject();
+        try {
+            values.put("message", message);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        requestArgs.payload = values;
+        requestArgs.callback = new TCSURLConnectionDelegate() {
+            @Override
+            public void done(TCSURLConnection connection, int responseCode, String reply, Exception e) {
+                JSONObject data = null;
+                Error error = null;
+
+                if (e != null) {
+                    error = new Error(e.getMessage(), e);
+                } else {
+                    try {
+                        if (responseCode == 200) {
+                            data = new JSONObject(reply);
+                        } else {
+                            error = new Error(ERROR_REQUEST_FAILED, null);
+                        }
+                    } catch (JSONException e1) {
+                        error = new Error(ERROR_REQUEST_FAILED, e1);
+                    }
+                }
+                if (delegate != null) {
+                    delegate.done(data, error);
+                }
+            }
+        };
+
+        //Submit the request using TCSApiConnector
+        try {
+            TCSAPIConnector.getInstance().requestWithArgs(requestArgs);
+        } catch (Exception e) {
+            delegate.done(null, new Error(e.getMessage(), e));
+        }
+    }
+
+    public void getExample(final TCSDataReturnedDelegate delegate) {
+        TCSRequestArgs requestArgs = new TCSRequestArgs();
+        requestArgs.requestType = ExtenderAPI.GETEXAMPLE;
+        requestArgs.callback = new TCSURLConnectionDelegate() {
+            @Override
+            public void done(TCSURLConnection connection, int responseCode, String reply, Exception e) {
+                JSONObject data = null;
+                Error error = null;
+
+                if (e != null) {
+                    error = new Error(e.getMessage(), e);
+                } else {
+                    try {
+                        data = new JSONObject(reply);
+                        if (responseCode == 200) {
+
+                        } else {
+                            error = new Error(ERROR_REQUEST_FAILED, null);
+                        }
+                    } catch (JSONException e1) {
+                        error = new Error(ERROR_REQUEST_FAILED, e1);
+                    }
+                }
+                if (delegate != null) {
+                    delegate.done(data, error);
+                }
+            }
+        };
+
+        try {
+            TCSAPIConnector.getInstance().requestWithArgs(requestArgs);
+        } catch (Exception e) {
+            delegate.done(null, new Error(e.getMessage(), e));
+        }
+    }
+```
+
+>Add the ApiExtender to TCS
 
 ```swift
+// In AppDelegate:
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     //... 
     (TCSAPIConnector.instance() as! TCSAPIConnector).extendsAPI(ExtenderAPI.shared)
 }
+```
+```java
+//Add when initialising TCSAPI AppUrl and ApiKey
+TCSAPIConnector.getInstance().extendAPI(RebelRewardsAPI.getInstance());
 ```
 
 >Use the APIExtensions in your code
@@ -351,6 +473,18 @@ ExtenderAPI.shared.getExample(callback: { (list, error) in
 
     }
 })
+```
+```java
+RebelRewardsAPI.getInstance().getExample( new TCSDataReturnedDelegate() {
+    @Override
+    public void done(JSONObject data, Error error) {
+        if (error == null) {
+            // Do something with data object
+        } else {
+            //Error Handling
+        }
+    }
+});
 ```
 
 
