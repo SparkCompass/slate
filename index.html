@@ -312,6 +312,15 @@
                   <li>
                     <a href="#get-exercises" class="toc-h2 toc-link" data-title="Get Exercises">Get Exercises</a>
                   </li>
+                  <li>
+                    <a href="#get-zones" class="toc-h2 toc-link" data-title="Get Zones">Get Zones</a>
+                  </li>
+                  <li>
+                    <a href="#get-devices" class="toc-h2 toc-link" data-title="Get Devices">Get Devices</a>
+                  </li>
+                  <li>
+                    <a href="#submit-activity" class="toc-h2 toc-link" data-title="Submit Activity">Submit Activity</a>
+                  </li>
               </ul>
           </li>
       </ul>
@@ -892,7 +901,7 @@ response 200 OK
         "uid": "99d196de5a9f4101be39abca489102dd"
     }
 }
-</code></pre><h2 id='test-end-user-access-token'>Test end user access token</h2><pre class="highlight plaintext"><code>GET : /api/1/enduser?cacheVersion=
+</code></pre><h2 id='test-end-user-access-token'>Test end user access token</h2><pre class="highlight plaintext"><code>GET : /api/1/testEndUserAccessToken
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -1228,7 +1237,9 @@ response 200 OK
 <blockquote>
 <p>GET Exercises
 ```raw
-POST : /api/1/fitness/exercises
+GET : /api/1/fitness/exercises
+GET : /api/1/fitness/exercises/equipment/{equipmentId}
+GET : /api/1/fitness/exercises/level/{levelId}
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
@@ -1240,6 +1251,107 @@ X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0</p>
     { exercise },
     ...
 ]</p>
+<pre class="highlight plaintext"><code>
+##Get Workouts
+&gt; GET Workouts
+```raw
+GET : /api/1/fitness/workouts
+GET : /api/1/fitness/workouts/equipment/{equipmentId}
+GET : /api/1/fitness/exercises/zone/{zoneId}
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { workout },
+    ...
+]
+
+</code></pre><h2 id='get-zones'>Get Zones</h2>
+<blockquote>
+<p>GET Zones
+```raw
+GET : /api/1/fitness/zones
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0</p>
+</blockquote>
+
+<p>response 200 OK
+[
+    { zone },
+    ...
+]</p>
+<pre class="highlight plaintext"><code>
+##Get Levels
+&gt; GET Levels
+```raw
+GET : /api/1/fitness/levels
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { level },
+    ...
+]
+
+</code></pre><h2 id='get-devices'>Get Devices</h2>
+<blockquote>
+<p>GET Devices
+```raw
+GET : /api/1/fitness/exercises
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : &quot;1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97...&quot;
+response 200 OK
+[
+    { Device },
+    ...
+]</p>
+</blockquote>
+<pre class="highlight plaintext"><code>
+##Get Activities
+&gt; GET Activities
+```raw
+GET : /api/1/fitness/activities
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+response 200 OK
+[
+    { Activity },
+    ...
+]
+
+</code></pre><h2 id='submit-activity'>Submit Activity</h2>
+<blockquote>
+<p>POST Activity
+```raw
+POST : /api/1/fitness/exercises
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : &quot;1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97...&quot;
+{
+    &quot;workoutId: : <workoutId>,
+    &quot;workoutTime: : &quot;2019-09-27T12:40:33+08:00&quot;,
+    &quot;duration: : <seconds>,
+}</p>
+</blockquote>
+
+<p>response 201 CREATED
+{ activity }</p>
 <pre class="highlight plaintext"><code>
 
 </code></pre>
