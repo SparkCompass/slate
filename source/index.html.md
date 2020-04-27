@@ -2,6 +2,7 @@
 title: API Reference
 
 language_tabs:
+  - raw
   - swift
   - java
   - javascript
@@ -501,12 +502,14 @@ Requests can be made to the platform to sync various items like calendars, event
 ##Headers
 
 X-PF-LocalTime as an ISO String in local time
+
 *   2013-09-27T12:40:33Z  (for GMT)
 *   2013-09-27T12:40:33+08:00
 *   2013-09-27T12:40:33-04:30
-X-PF-AppInstanceUID - a uid that represents the Installation
-*   
-X-PF-EndUserAccessToken - User access token generated from successful user login
+
+**X-PF-AppInstanceUID** - a uid that represents the Installation
+
+**X-PF-EndUserAccessToken** - User access token generated from successful user login
 
 ##Register App Instance
 When your application first connects to the platform it should Register an App instance:
@@ -589,7 +592,19 @@ Care should be taken to keep attributes consistent between deployment platforms
 
 response 201 CREATED
 {
-    
+    "endUserAccessToken": "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c973e5c6d8777ff06a86955db6aca5586267f0060cbd7e61cc1ee9bf4f9c90aa3a1ff8a6ef008fefb1af1bb3dd3a10ba6b02416b93d0087c9193817ec472bc41dedc1e1e9314d1c2d28e938bb74c34aa0772a98be179b6377b21624f3141bd85ab1b76",
+    "endUser": {
+        "status": "ENABLED",
+        "emailAddress": "BlackBeard@dummy-tcs.com",
+        "emailConfirmationStatus": "CONFIRMED",
+        "userName": "BlackBeard",
+        "firstName": "Black",
+        "lastName": "Beard",
+        "creationTime": "2020-04-21T04:41:41.000Z",
+        "updateTime": "2020-04-21T04:41:41.000Z",
+        "attributes": {},
+        "uid": "99d196de5a9f4101be39abca489102dd"
+    }
 }
 ```
 
@@ -627,7 +642,7 @@ response 200 OK
 
 ##Test end user access token
 ```raw
-GET : /api/1/enduser?cacheVersion=
+GET : /api/1/testEndUserAccessToken
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -637,6 +652,18 @@ X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b
 response 200 OK
 ```
 
+##End User Logout
+
+```raw
+GET : /api/1/enduser/logout
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+
+response 200 OK
+```
 
 ##Get End User Profile
 
@@ -953,5 +980,130 @@ response 200 OK
 
 #Fitness module API
 
+##Get Exercises
+> GET Exercises
+```raw
+GET : /api/1/fitness/exercises
+GET : /api/1/fitness/exercises/equipment/{equipmentId}
+GET : /api/1/fitness/exercises/level/{levelId}
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { exercise },
+    ...
+]
+
+```
+
+##Get Workouts
+> GET Workouts
+```raw
+GET : /api/1/fitness/workouts
+GET : /api/1/fitness/workouts/equipment/{equipmentId}
+GET : /api/1/fitness/exercises/zone/{zoneId}
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { workout },
+    ...
+]
+
+```
+
+##Get Zones
+> GET Zones
+```raw
+GET : /api/1/fitness/zones
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { zone },
+    ...
+]
+
+```
+
+##Get Levels
+> GET Levels
+```raw
+GET : /api/1/fitness/levels
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { level },
+    ...
+]
+
+```
+
+##Get Devices
+> GET Devices
+```raw
+GET : /api/1/fitness/exercises
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+response 200 OK
+[
+    { Device },
+    ...
+]
+
+```
+
+##Get Activities
+> GET Activities
+```raw
+GET : /api/1/fitness/activities
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+response 200 OK
+[
+    { Activity },
+    ...
+]
+
+```
+
+##Submit Activity
+> POST Activity
+```raw
+POST : /api/1/fitness/exercises
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+{
+    "workoutId: : <workoutId>,
+    "workoutTime: : "2019-09-27T12:40:33+08:00",
+    "duration: : <seconds>,
+}
+
+response 201 CREATED
+{ activity }
+
+```
 
 
