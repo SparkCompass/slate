@@ -496,12 +496,462 @@ ExtenderAPI.getInstance().getExample( new TCSDataReturnedDelegate() {
 Requests can be made to the platform to sync various items like calendars, events, exhibitors/speakers, Banner menus for the home screen.
 
 
+#Spark Compass REST Api
+
+##Headers
+
+X-PF-LocalTime as an ISO String in local time
+*   2013-09-27T12:40:33Z  (for GMT)
+*   2013-09-27T12:40:33+08:00
+*   2013-09-27T12:40:33-04:30
+X-PF-AppInstanceUID - a uid that represents the Installation
+*   
+X-PF-EndUserAccessToken - User access token generated from successful user login
+
+##Register App Instance
+When your application first connects to the platform it should Register an App instance:
+
+```raw
+POST : /api/1/registerAppInstance
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+{
+    "appUID" : "bd44093097f946a99cc8a56510847fdf",
+    "sdkTarget" : "ANDROID",
+    "appVersion" : "0.0.3",
+    "osType" : "ANDROID",
+    "osVersion" : "4.1",
+    "device" : "Samsung Galaxy S3",
+    "latitude" : "44.3445",
+    "longitude" : "-112.3340"
+}
+
+response 201 CREATED
+{
+    "appInstanceUID": "53b1fb9ae29349ffbff3ff02230d56b0"
+}
+
+```
+
+##Update AppInstance
+If any parameters change for the installation like the app version, the osVersion, an AppInstance update should be sent.
+
+```raw
+POST : /api/1/appInstance/update
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+{
+    "appVersion" : "0.0.3",
+    "osVersion" : "4.1",
+    "device" : "Samsung Galaxy S3",
+    "latitude" : "44.3445",
+    "longitude" : "-112.3340"
+}
+
+response 200 OK
+```
+
+##End User Registration.
+
+```raw
+POST : /api/1/enduser/register
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+{
+    "emailAddress" : "BlackBeard@dummy-tcs.com",
+    "password" : "bb121"
+}
+OR
+{
+    "userName" : "BlackBeard",
+    "password" : "bb121"
+}
+OR
+{
+    "userName" : "BlackBeard",
+    "emailAddress" : "BlackBeard@dummy-tcs.com",
+    "password" : "bb121",
+    "firstName" : "Black",
+    "lastName" : "Beard",
+    "attributes" : {
+        { "age", "37" },
+        { "job", "Pirate" }
+    }
+}
+
+Any Attributes can be defined for an end user and will be stored in the user profile
+Care should be taken to keep attributes consistent between deployment platforms
+
+response 201 CREATED
+{
+    
+}
+```
+
+##End User Login
+
+```raw
+POST : /api/1/enduser/login
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+{
+    "userName" : "BlackBeard",
+    "password" : "kb121"
+}
 
 
+response 200 OK
+{
+    "endUserAccessToken": "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c973e5c6d8777ff06a86955db6aca5586267f0060cbd7e61cc1ee9bf4f9c90aa3a1ff8a6ef008fefb1af1bb3dd3a10ba6b02416b93d0087c9193817ec472bc41dedc1e1e9314d1c2d28e938bb74c34aa0772a98be179b6377b21624f3141bd85ab1b76",
+    "endUser": {
+        "status": "ENABLED",
+        "emailAddress": "BlackBeard@dummy-tcs.com",
+        "emailConfirmationStatus": "CONFIRMED",
+        "userName": "BlackBeard",
+        "firstName": "Black",
+        "lastName": "Beard",
+        "creationTime": "2020-04-21T04:41:41.000Z",
+        "updateTime": "2020-04-21T04:41:41.000Z",
+        "attributes": {},
+        "uid": "99d196de5a9f4101be39abca489102dd"
+    }
+}
+```
+
+##Test end user access token
+```raw
+GET : /api/1/enduser?cacheVersion=
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+
+response 200 OK
+```
 
 
+##Get End User Profile
+
+```raw
+GET : /api/1/enduser?cacheVersion=
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+cacheVersion : (optional cache version from previous request)
+
+response 200 OK
+{
+    "cacheStatus": "OUT_OF_SYNC",
+    "cacheVersion": "200421044141",
+    "endUser": {
+        "status": "ENABLED",
+        "emailAddress": "BlackBeard@dummy-tcs.com",
+        "emailConfirmationStatus": "CONFIRMED",
+        "userName": "BlackBeard",
+        "firstName": "Black",
+        "lastName": "Beard",
+        "creationTime": "2020-04-21T04:41:41.000Z",
+        "updateTime": "2020-04-21T04:41:41.000Z",
+        "attributes": {},
+        "uid": "99d196de5a9f4101be39abca489102dd"
+    }
+}
+```
+
+##Update End User Profile
+```raw
+POST : /api/1/enduser/update
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+{
+    "userName" : "BlackBeard",
+    "firstName" : "Black",
+    "lastName" : "Beard",
+    "attributes" : {
+        { "age", "37" },
+        { "job", "Pirate" }
+    }
+}
 
 
+response 200 OK
+{
+    "cacheStatus": "IN_SYNC",
+    "cacheVersion": "200421044141",
+    "endUser": {
+        "status": "ENABLED",
+        "emailAddress": "BlackBeard@dummy-tcs.com",
+        "emailConfirmationStatus": "CONFIRMED",
+        "userName": "BlackBeard",
+        "firstName": "Black",
+        "lastName": "Beard",
+        "creationTime": "2020-04-21T04:41:41.000Z",
+        "updateTime": "2020-04-21T04:41:41.000Z",
+        "attributes" : {
+            { "age", "37" },
+            { "job", "Pirate" }
+        }
+        "uid": "99d196de5a9f4101be39abca489102dd"
+    }
+}
+```
+
+##Update End User Profile Image
+```raw
+POST : /api/1/enduser/profileImage 
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+**Multipart File Request**
+
+
+response 200 OK
+{
+    "resourceUid" : "",
+    "resourceName" : "",
+    "resourceDescription" : "",
+    "resourceTaxonomy" : "",
+    "resourceStatus" : "",
+    "resourceDefinitionId" : "",
+    "platform" : "",
+    "language" : "",
+    "definition" : ""
+}
+```
+
+##Forgot password request
+```raw
+POST : /api/1/enduser/forgotPassword
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+{
+    "emailAddress" : "BlackBeard@dummy-tcs.com"
+}
+
+response 200 OK
+
+```
+
+##Change Password
+```raw
+POST : /api/1/enduser/changePassword
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+{
+    "oldPassword" : "1234",
+    "newPassword" : "5678",
+}
+
+response 200 OK
+
+```
+
+##Change Email
+```raw
+POST : /api/1/enduser/changeEmail
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+{
+    "password" : "1234",
+    "emailAddress" : "BlackBeard@dummy-tcs.com",
+}
+
+response 200 OK
+
+```
+
+##GET a menu by name
+
+Menus are lists of named items with associated behaviour described as **actions** which the app should perform when the user taps the menu item within whatever context that item exists.
+
+Menus are created with a title to be requested by the app. e.g. **MainMenu**, **BannerMenu**, **ToolbarMenu**.
+
+Menu Items are then added to each menu
+
+> Get a menu by name
+
+```raw
+GET : /api/1/menu/{menuID}?cacheVersion
+menuID => name of menu ie. MainMenu
+cacheVersion => cacheVersion of the last menu request response
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+{
+    "cacheStatus": "OUT_OF_SYNC",
+    "cacheVersion": "200421000021",
+    "menu": {
+        "name": "MainMenu",
+        "creationTime": "2020-04-17T03:48:39.000Z",
+        "updateTime": "2020-04-21T00:00:21.000Z",
+        "menuItems": [ see below ],
+        "uid": "0acb366c4d39443887d4e9558326e269"
+    }
+}
+```
+
+##Menu Item 
+
+Menu items are created with a behavior called an action.
+
+The following two are the most common ones.
+* AppPage - the menu item takes you to another page in the app when you tap on the item 
+* Webview with URL - the menu item opens some content in a webpage
+
+A menu item is configured to have a name which may be displayed in the app depending on the context, an icon/image which can be specified by using uploaded content or by specifying a URL. The order of items in a menu can be controlled using the position in menu. 
+
+
+The Icon URL may start with 
+* file:// - this means it expects to find the file bundled with the app.
+Otherwise it will start with 
+* https:// 
+* *IconResourceId* means that that the resource is defined as a resource on the platform and should be requested
+
+> Menu Item
+
+```raw
+{
+    "position": 0,
+    "name": "Home",
+    "iconUrl": "file://icon_home.png",
+    "iconResourceId": 0,
+    "creationTime": "2020-04-17T03:48:39.000Z",
+    "updateTime": "2020-04-17T03:48:39.000Z",
+    "action": { see below },
+    "uid": "198904f6c3674732b37bb49f2117be81"
+}
+```
+
+##Action
+
+> Action
+
+```raw
+{
+    "name": "",
+    "status": "ENABLED",
+    "actionDomain": "MENU",
+    "actionType": "APP_PAGE",
+    "actionNotificationType": "NONE",
+    "creationTime": "2020-04-17T03:48:39.000Z",
+    "updateTime": "2020-04-17T03:48:39.000Z",
+    "parameters": [
+        {
+        "name": "AppPage",
+        "value": "HOME"
+        }
+    ],
+    "uid": "6dd1288440004a7388adf110d05be7cf"
+}
+```
+
+##Actions: 
+
+Actions are used throughout the app for telling the app how it should behave as a response to a stimulus from the user - ie go to another page in the app or open a webview or conceptually a number of other things. This is either a direct response programmed to an item in the app or it may be a response to an action returned by the web application to an event sent by the app. For example if geofences are enabled and the user enters a geofence, a geofence entry is sent to the platform. If there is an action returned by the platform as a response then that action depending on its configuration should be performed by the app
+
+The fields of note for an action are 
+
+* Action Type 
+    * APP_PAGE - Go to a page in the app
+    * WEBVIEW_WITH_URL - Present a webview with URL
+* Parameters
+    * Array of name / value pairs that describe the requirements for the Action Type
+    * For ActionType == APP_PAGE parameter is
+        * AppPage => Const descriptor for the page to navigate to eg HOME
+    * For ActionType == WEBVIEW_WITH_URL
+        * Url => url to display in a webpage
+
+So create a common place in the app that can process actions.
+Any time the user taps on some item that has an action associated with it send that action to your place that processes actions and deal with it there. I usually define some global delegate that exists for the lifetime of the app that can deal with actions.
+
+##Posting Events
+
+Various things happen in the app that should be sent via the API as events.
+
+**EventTypes**
+
+* GENERIC
+* GENERIC_APP
+* IMAGE_TARGET_RECOGNITION
+    * value01 : *image target ID*
+* GEOFENCE_ENTRY
+    * entityUID : *Geofence UID*
+* GEOFENCE_EXIT
+    * entityUID : *Geofence UID*
+* GEOFENCE_DWELL
+    * entityUID : *Geofence UID*
+* BEACON_PROXIMITY_ENTRY
+    * value01 : *Beacon name*
+    * value02 : *Beacon id*
+* BEACON_PROXIMITY_EXIT
+    * value01 : *Beacon name*
+    * value02 : *Beacon id*
+* BEACON_PROXIMITY_DWELL
+    * value01 : *Beacon name*
+    * value02 : *Beacon id*
+    * value03 : *Dwell time seconds*
+* BEACON_POP_TOUCH
+    * value01 : *Beacon name*
+    * value02 : *Beacon id*
+* APPLICATION_WAKE
+* WEBVIEW_LINK
+* ENDUSER_MENU_INTERACTION
+    * entityUID : *Menu Item UID*
+
+> Post an event
+
+```raw
+POST : /api/1/appEvent
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..." (optional)
+{
+    "eventTime" : "2013-08-13T12:12:33-06:00",
+    "eventType" : "APP_INSTANCE_AWAKEN",
+    "entityUID" : "c3060d7c507146debf512cb486fe249d" // if the event relates to an entity
+    "latitude" : "-36.863445",
+    "longitude" : "174.851441",
+    "value01" : "supplementary value 1", // optional - see above
+    "value02" : "supplementary value 2", // optional - see above
+    "value03" : "supplementary value 3", // optional - see above
+}
+
+response 200 OK
+{
+    "actions" : [] // returns actions if the event triggers any.
+}
+
+```
+
+#Fitness module API
 
 
 
