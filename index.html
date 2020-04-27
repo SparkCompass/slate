@@ -850,7 +850,19 @@ Care should be taken to keep attributes consistent between deployment platforms
 
 response 201 CREATED
 {
-
+    "endUserAccessToken": "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c973e5c6d8777ff06a86955db6aca5586267f0060cbd7e61cc1ee9bf4f9c90aa3a1ff8a6ef008fefb1af1bb3dd3a10ba6b02416b93d0087c9193817ec472bc41dedc1e1e9314d1c2d28e938bb74c34aa0772a98be179b6377b21624f3141bd85ab1b76",
+    "endUser": {
+        "status": "ENABLED",
+        "emailAddress": "BlackBeard@dummy-tcs.com",
+        "emailConfirmationStatus": "CONFIRMED",
+        "userName": "BlackBeard",
+        "firstName": "Black",
+        "lastName": "Beard",
+        "creationTime": "2020-04-21T04:41:41.000Z",
+        "updateTime": "2020-04-21T04:41:41.000Z",
+        "attributes": {},
+        "uid": "99d196de5a9f4101be39abca489102dd"
+    }
 }
 </code></pre><h2 id='end-user-login'>End User Login</h2><pre class="highlight plaintext"><code>POST : /api/1/enduser/login
 Accept: application/json
