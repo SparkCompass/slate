@@ -268,6 +268,9 @@
                     <a href="#test-end-user-access-token" class="toc-h2 toc-link" data-title="Test end user access token">Test end user access token</a>
                   </li>
                   <li>
+                    <a href="#end-user-logout" class="toc-h2 toc-link" data-title="End User Logout">End User Logout</a>
+                  </li>
+                  <li>
                     <a href="#get-end-user-profile" class="toc-h2 toc-link" data-title="Get End User Profile">Get End User Profile</a>
                   </li>
                   <li>
@@ -304,6 +307,11 @@
           </li>
           <li>
             <a href="#fitness-module-api" class="toc-h1 toc-link" data-title="Fitness module API">Fitness module API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-exercises" class="toc-h2 toc-link" data-title="Get Exercises">Get Exercises</a>
+                  </li>
+              </ul>
           </li>
       </ul>
         <ul class="toc-footer">
@@ -879,6 +887,14 @@ X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
 X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
 
 response 200 OK
+</code></pre><h2 id='end-user-logout'>End User Logout</h2><pre class="highlight plaintext"><code>GET : /api/1/enduser/logout
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+
+response 200 OK
 </code></pre><h2 id='get-end-user-profile'>Get End User Profile</h2><pre class="highlight plaintext"><code>GET : /api/1/enduser?cacheVersion=
 Accept: application/json
 Content-Type: application/json
@@ -1195,7 +1211,25 @@ response 200 OK
     "actions" : [] // returns actions if the event triggers any.
 }
 
-</code></pre><h1 id='fitness-module-api'>Fitness module API</h1>
+</code></pre><h1 id='fitness-module-api'>Fitness module API</h1><h2 id='get-exercises'>Get Exercises</h2>
+<blockquote>
+<p>GET Exercises
+```raw
+POST : /api/1/fitness/exercises
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0</p>
+</blockquote>
+
+<p>response 200 OK
+[
+    { exercise },
+    ...
+]</p>
+<pre class="highlight plaintext"><code>
+
+</code></pre>
       </div>
       <div class="dark-box">
           <div class="lang-selector">
