@@ -274,6 +274,9 @@
                     <a href="#update-end-user-profile" class="toc-h2 toc-link" data-title="Update End User Profile">Update End User Profile</a>
                   </li>
                   <li>
+                    <a href="#update-end-user-profile-image" class="toc-h2 toc-link" data-title="Update End User Profile Image">Update End User Profile Image</a>
+                  </li>
+                  <li>
                     <a href="#forgot-password-request" class="toc-h2 toc-link" data-title="Forgot password request">Forgot password request</a>
                   </li>
                   <li>
@@ -282,7 +285,25 @@
                   <li>
                     <a href="#change-email" class="toc-h2 toc-link" data-title="Change Email">Change Email</a>
                   </li>
+                  <li>
+                    <a href="#get-a-menu-by-name" class="toc-h2 toc-link" data-title="GET a menu by name">GET a menu by name</a>
+                  </li>
+                  <li>
+                    <a href="#menu-item" class="toc-h2 toc-link" data-title="Menu Item">Menu Item</a>
+                  </li>
+                  <li>
+                    <a href="#action" class="toc-h2 toc-link" data-title="Action">Action</a>
+                  </li>
+                  <li>
+                    <a href="#actions" class="toc-h2 toc-link" data-title="Actions:">Actions:</a>
+                  </li>
+                  <li>
+                    <a href="#posting-events" class="toc-h2 toc-link" data-title="Posting Events">Posting Events</a>
+                  </li>
               </ul>
+          </li>
+          <li>
+            <a href="#fitness-module-api" class="toc-h1 toc-link" data-title="Fitness module API">Fitness module API</a>
           </li>
       </ul>
         <ul class="toc-footer">
@@ -916,6 +937,27 @@ response 200 OK
         "uid": "99d196de5a9f4101be39abca489102dd"
     }
 }
+</code></pre><h2 id='update-end-user-profile-image'>Update End User Profile Image</h2><pre class="highlight plaintext"><code>POST : /api/1/enduser/profileImage 
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
+**Multipart File Request**
+
+
+response 200 OK
+{
+    "resourceUid" : "",
+    "resourceName" : "",
+    "resourceDescription" : "",
+    "resourceTaxonomy" : "",
+    "resourceStatus" : "",
+    "resourceDefinitionId" : "",
+    "platform" : "",
+    "language" : "",
+    "definition" : ""
+}
 </code></pre><h2 id='forgot-password-request'>Forgot password request</h2><pre class="highlight plaintext"><code>POST : /api/1/enduser/forgotPassword
 Accept: application/json
 Content-Type: application/json
@@ -953,7 +995,203 @@ X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b
 
 response 200 OK
 
-</code></pre>
+</code></pre><h2 id='get-a-menu-by-name'>GET a menu by name</h2>
+<p>Menus are lists of named items with associated behaviour described as <strong>actions</strong> which the app should perform when the user taps the menu item within whatever context that item exists.</p>
+
+<p>Menus are created with a title to be requested by the app. e.g. <strong>MainMenu</strong>, <strong>BannerMenu</strong>, <strong>ToolbarMenu</strong>.</p>
+
+<p>Menu Items are then added to each menu</p>
+
+<blockquote>
+<p>Get a menu by name</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/menu/{menuID}?cacheVersion
+menuID =&gt; name of menu ie. MainMenu
+cacheVersion =&gt; cacheVersion of the last menu request response
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+{
+    "cacheStatus": "OUT_OF_SYNC",
+    "cacheVersion": "200421000021",
+    "menu": {
+        "name": "MainMenu",
+        "creationTime": "2020-04-17T03:48:39.000Z",
+        "updateTime": "2020-04-21T00:00:21.000Z",
+        "menuItems": [ see below ],
+        "uid": "0acb366c4d39443887d4e9558326e269"
+    }
+}
+</code></pre><h2 id='menu-item'>Menu Item</h2>
+<p>Menu items are created with a behavior called an action.</p>
+
+<p>The following two are the most common ones.
+* AppPage - the menu item takes you to another page in the app when you tap on the item 
+* Webview with URL - the menu item opens some content in a webpage</p>
+
+<p>A menu item is configured to have a name which may be displayed in the app depending on the context, an icon/image which can be specified by using uploaded content or by specifying a URL. The order of items in a menu can be controlled using the position in menu. </p>
+
+<p>The Icon URL may start with 
+* file:// - this means it expects to find the file bundled with the app.
+Otherwise it will start with 
+* https:// 
+* <em>IconResourceId</em> means that that the resource is defined as a resource on the platform and should be requested</p>
+
+<blockquote>
+<p>Menu Item</p>
+</blockquote>
+<pre class="highlight plaintext"><code>{
+    "position": 0,
+    "name": "Home",
+    "iconUrl": "file://icon_home.png",
+    "iconResourceId": 0,
+    "creationTime": "2020-04-17T03:48:39.000Z",
+    "updateTime": "2020-04-17T03:48:39.000Z",
+    "action": { see below },
+    "uid": "198904f6c3674732b37bb49f2117be81"
+}
+</code></pre><h2 id='action'>Action</h2>
+<blockquote>
+<p>Action</p>
+</blockquote>
+<pre class="highlight plaintext"><code>{
+    "name": "",
+    "status": "ENABLED",
+    "actionDomain": "MENU",
+    "actionType": "APP_PAGE",
+    "actionNotificationType": "NONE",
+    "creationTime": "2020-04-17T03:48:39.000Z",
+    "updateTime": "2020-04-17T03:48:39.000Z",
+    "parameters": [
+        {
+        "name": "AppPage",
+        "value": "HOME"
+        }
+    ],
+    "uid": "6dd1288440004a7388adf110d05be7cf"
+}
+</code></pre><h2 id='actions'>Actions:</h2>
+<p>Actions are used throughout the app for telling the app how it should behave as a response to a stimulus from the user - ie go to another page in the app or open a webview or conceptually a number of other things. This is either a direct response programmed to an item in the app or it may be a response to an action returned by the web application to an event sent by the app. For example if geofences are enabled and the user enters a geofence, a geofence entry is sent to the platform. If there is an action returned by the platform as a response then that action depending on its configuration should be performed by the app</p>
+
+<p>The fields of note for an action are </p>
+
+<ul>
+<li>Action Type 
+
+<ul>
+<li>APP_PAGE - Go to a page in the app</li>
+<li>WEBVIEW_WITH_URL - Present a webview with URL</li>
+</ul></li>
+<li>Parameters
+
+<ul>
+<li>Array of name / value pairs that describe the requirements for the Action Type</li>
+<li>For ActionType == APP_PAGE parameter is
+
+<ul>
+<li>AppPage =&gt; Const descriptor for the page to navigate to eg HOME</li>
+</ul></li>
+<li>For ActionType == WEBVIEW_WITH_URL
+
+<ul>
+<li>Url =&gt; url to display in a webpage</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>So create a common place in the app that can process actions.
+Any time the user taps on some item that has an action associated with it send that action to your place that processes actions and deal with it there. I usually define some global delegate that exists for the lifetime of the app that can deal with actions.</p>
+<h2 id='posting-events'>Posting Events</h2>
+<p>Various things happen in the app that should be sent via the API as events.</p>
+
+<p><strong>EventTypes</strong></p>
+
+<ul>
+<li>GENERIC</li>
+<li>GENERIC_APP</li>
+<li>IMAGE_TARGET_RECOGNITION
+
+<ul>
+<li>value01 : <em>image target ID</em></li>
+</ul></li>
+<li>GEOFENCE_ENTRY
+
+<ul>
+<li>entityUID : <em>Geofence UID</em></li>
+</ul></li>
+<li>GEOFENCE_EXIT
+
+<ul>
+<li>entityUID : <em>Geofence UID</em></li>
+</ul></li>
+<li>GEOFENCE_DWELL
+
+<ul>
+<li>entityUID : <em>Geofence UID</em></li>
+</ul></li>
+<li>BEACON_PROXIMITY_ENTRY
+
+<ul>
+<li>value01 : <em>Beacon name</em></li>
+<li>value02 : <em>Beacon id</em></li>
+</ul></li>
+<li>BEACON_PROXIMITY_EXIT
+
+<ul>
+<li>value01 : <em>Beacon name</em></li>
+<li>value02 : <em>Beacon id</em></li>
+</ul></li>
+<li>BEACON_PROXIMITY_DWELL
+
+<ul>
+<li>value01 : <em>Beacon name</em></li>
+<li>value02 : <em>Beacon id</em></li>
+<li>value03 : <em>Dwell time seconds</em></li>
+</ul></li>
+<li>BEACON_POP_TOUCH
+
+<ul>
+<li>value01 : <em>Beacon name</em></li>
+<li>value02 : <em>Beacon id</em></li>
+</ul></li>
+<li>APPLICATION_WAKE</li>
+<li>WEBVIEW_LINK</li>
+<li>ENDUSER_MENU_INTERACTION
+
+<ul>
+<li>entityUID : <em>Menu Item UID</em></li>
+</ul></li>
+</ul>
+
+<blockquote>
+<p>Post an event</p>
+</blockquote>
+<pre class="highlight plaintext"><code>POST : /api/1/appEvent
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..." (optional)
+{
+    "eventTime" : "2013-08-13T12:12:33-06:00",
+    "eventType" : "APP_INSTANCE_AWAKEN",
+    "entityUID" : "c3060d7c507146debf512cb486fe249d" // if the event relates to an entity
+    "latitude" : "-36.863445",
+    "longitude" : "174.851441",
+    "value01" : "supplementary value 1", // optional - see above
+    "value02" : "supplementary value 2", // optional - see above
+    "value03" : "supplementary value 3", // optional - see above
+}
+
+response 200 OK
+{
+    "actions" : [] // returns actions if the event triggers any.
+}
+
+</code></pre><h1 id='fitness-module-api'>Fitness module API</h1>
       </div>
       <div class="dark-box">
           <div class="lang-selector">
