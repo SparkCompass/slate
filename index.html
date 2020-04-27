@@ -761,13 +761,16 @@ You must replace <code>`appuid`</code> with the appUid we supply you.
 </code></pre><h1 id='platform-requests'>Platform Requests</h1>
 <p>Requests can be made to the platform to sync various items like calendars, events, exhibitors/speakers, Banner menus for the home screen.</p>
 <h1 id='spark-compass-rest-api'>Spark Compass REST Api</h1><h2 id='headers'>Headers</h2>
-<p>X-PF-LocalTime as an ISO String in local time
-*   2013-09-27T12:40:33Z  (for GMT)
-*   2013-09-27T12:40:33+08:00
-*   2013-09-27T12:40:33-04:30
-X-PF-AppInstanceUID - a uid that represents the Installation
-*<br>
-X-PF-EndUserAccessToken - User access token generated from successful user login</p>
+<p>X-PF-LocalTime as an ISO String in local time</p>
+
+<ul>
+<li>  2013-09-27T12:40:33Z  (for GMT)</li>
+<li>  2013-09-27T12:40:33+08:00</li>
+<li>  2013-09-27T12:40:33-04:30</li>
+</ul>
+
+<p><strong>X-PF-AppInstanceUID</strong> - a uid that represents the Installation
+<strong>X-PF-EndUserAccessToken</strong> - User access token generated from successful user login</p>
 <h2 id='register-app-instance'>Register App Instance</h2>
 <p>When your application first connects to the platform it should Register an App instance:</p>
 <pre class="highlight plaintext"><code>POST : /api/1/registerAppInstance
