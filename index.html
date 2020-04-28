@@ -296,6 +296,9 @@
                     <a href="#menu-item" class="toc-h2 toc-link" data-title="Menu Item">Menu Item</a>
                   </li>
                   <li>
+                    <a href="#page-templates" class="toc-h2 toc-link" data-title="Page Templates">Page Templates</a>
+                  </li>
+                  <li>
                     <a href="#action" class="toc-h2 toc-link" data-title="Action">Action</a>
                   </li>
                   <li>
@@ -1119,6 +1122,40 @@ response 200 OK
     "updateTime": "2020-04-17T03:48:39.000Z",
     "action": { see below },
     "uid": "198904f6c3674732b37bb49f2117be81"
+}
+</code></pre><h2 id='page-templates'>Page Templates</h2>
+<blockquote>
+<p>Get the template for the app</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/template
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+{
+    "uid": "6c8cc305f55049e68ca5c4064a29f2b2",
+    "globalValues": {
+        "primaryColor": "#ea741e",
+        "menuLogoUrl": "http://aladdin.sparkcompass.com/content/icons/logo/fitness_logo-black.png",
+        "appLogoUrl": "http://aladdin.sparkcompass.com/content/icons/logo/fitness_logo-mark.png",
+        "tertiaryColor": "#0e0e0e",
+        "secondaryColor": "#ea741e"
+    },
+    "pages": {
+        "HOME": {
+            "uid": null,
+            "templateType": "LANDING_TEMPLATE_1", // Corresponds to the fitness template landing page
+            "values": {
+                "panelLogoUrl": "http://aladdin.sparkcompass.com/content/icons/logo/fitness_logo-white.png",
+                "gridItemCornerRadius": "true",
+                "panelBgUrl": "http://aladdin.sparkcompass.com/content/icons/header.jpg",
+                "gridItemBgOpacity": "0.0",
+                "gridItemBgColor": "#000000"
+            }
+        }
+    }
 }
 </code></pre><h2 id='action'>Action</h2>
 <blockquote>
