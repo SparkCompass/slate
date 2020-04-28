@@ -501,7 +501,7 @@ Requests can be made to the platform to sync various items like calendars, event
 
 ##Headers
 
-X-PF-LocalTime as an ISO String in local time
+**X-PF-LocalTime** as an ISO String in local time
 
 *   2013-09-27T12:40:33Z  (for GMT)
 *   2013-09-27T12:40:33+08:00
@@ -696,6 +696,7 @@ response 200 OK
 ```
 
 ##Update End User Profile
+
 ```raw
 POST : /api/1/enduser/update
 Accept: application/json
@@ -737,6 +738,7 @@ response 200 OK
 ```
 
 ##Update End User Profile Image
+
 ```raw
 POST : /api/1/enduser/profileImage 
 Accept: application/json
@@ -762,6 +764,7 @@ response 200 OK
 ```
 
 ##Forgot password request
+
 ```raw
 POST : /api/1/enduser/forgotPassword
 Accept: application/json
@@ -777,6 +780,7 @@ response 200 OK
 ```
 
 ##Change Password
+
 ```raw
 POST : /api/1/enduser/changePassword
 Accept: application/json
@@ -794,6 +798,7 @@ response 200 OK
 ```
 
 ##Change Email
+
 ```raw
 POST : /api/1/enduser/changeEmail
 Accept: application/json
@@ -855,8 +860,11 @@ A menu item is configured to have a name which may be displayed in the app depen
 
 
 The Icon URL may start with 
+
 * file:// - this means it expects to find the file bundled with the app.
+
 Otherwise it will start with 
+
 * https:// 
 * *IconResourceId* means that that the resource is defined as a resource on the platform and should be requested
 
@@ -980,31 +988,14 @@ response 200 OK
 
 #Fitness module API
 
-##Get Exercises
-> GET Exercises
-```raw
-GET : /api/1/fitness/exercises
-GET : /api/1/fitness/exercises/equipment/{equipmentId}
-GET : /api/1/fitness/exercises/level/{levelId}
-Accept: application/json
-Content-Type: application/json
-X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
-X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
-
-response 200 OK
-[
-    { exercise },
-    ...
-]
-
-```
-
 ##Get Workouts
+
 > GET Workouts
+
 ```raw
 GET : /api/1/fitness/workouts
-GET : /api/1/fitness/workouts/equipment/{equipmentId}
-GET : /api/1/fitness/exercises/zone/{zoneId}
+GET : /api/1/fitness/workouts/level/{levelId}
+GET : /api/1/fitness/workouts/goal/{goalId}
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -1018,8 +1009,32 @@ response 200 OK
 
 ```
 
+##Get Exercises
+
+> GET Exercises
+
+```raw
+GET : /api/1/fitness/exercises
+GET : /api/1/fitness/exercises/equipment/{equipmentId}
+GET : /api/1/fitness/exercises/zone/{zoneId}
+GET : /api/1/fitness/exercises/workout/{workoutId}/day/{day}
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { exercise },
+    ...
+]
+
+```
+
 ##Get Zones
+
 > GET Zones
+
 ```raw
 GET : /api/1/fitness/zones
 Accept: application/json
@@ -1035,8 +1050,29 @@ response 200 OK
 
 ```
 
+##Get Goals
+
+> GET Goals
+
+```raw
+GET : /api/1/fitness/goals
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { goal },
+    ...
+]
+
+```
+
 ##Get Levels
+
 > GET Levels
+
 ```raw
 GET : /api/1/fitness/levels
 Accept: application/json
@@ -1053,24 +1089,43 @@ response 200 OK
 ```
 
 ##Get Devices
+
 > GET Devices
+
 ```raw
 GET : /api/1/fitness/exercises
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
 X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
-X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
 response 200 OK
 [
     { Device },
     ...
 ]
+```
 
+##Get Equipment
+
+> GET Equipment
+
+```raw
+GET : /api/1/fitness/equipment
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+response 200 OK
+[
+    { equipment },
+    ...
+]
 ```
 
 ##Get Activities
+
 > GET Activities
+
 ```raw
 GET : /api/1/fitness/activities
 Accept: application/json
@@ -1087,9 +1142,11 @@ response 200 OK
 ```
 
 ##Submit Activity
+
 > POST Activity
+
 ```raw
-POST : /api/1/fitness/exercises
+POST : /api/1/fitness/activity
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -1104,6 +1161,23 @@ X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b
 response 201 CREATED
 { activity }
 
+```
+
+##Get Videos
+
+> GET Videos
+
+```raw
+GET : /api/1/fitness/videos
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+response 200 OK
+[
+    { video },
+    ...
+]
 ```
 
 
