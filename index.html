@@ -313,13 +313,31 @@
                     <a href="#get-exercises" class="toc-h2 toc-link" data-title="Get Exercises">Get Exercises</a>
                   </li>
                   <li>
+                    <a href="#get-workouts" class="toc-h2 toc-link" data-title="Get Workouts">Get Workouts</a>
+                  </li>
+                  <li>
                     <a href="#get-zones" class="toc-h2 toc-link" data-title="Get Zones">Get Zones</a>
+                  </li>
+                  <li>
+                    <a href="#get-goals" class="toc-h2 toc-link" data-title="Get Goals">Get Goals</a>
+                  </li>
+                  <li>
+                    <a href="#get-levels" class="toc-h2 toc-link" data-title="Get Levels">Get Levels</a>
                   </li>
                   <li>
                     <a href="#get-devices" class="toc-h2 toc-link" data-title="Get Devices">Get Devices</a>
                   </li>
                   <li>
+                    <a href="#get-equipment" class="toc-h2 toc-link" data-title="Get Equipment">Get Equipment</a>
+                  </li>
+                  <li>
+                    <a href="#get-activities" class="toc-h2 toc-link" data-title="Get Activities">Get Activities</a>
+                  </li>
+                  <li>
                     <a href="#submit-activity" class="toc-h2 toc-link" data-title="Submit Activity">Submit Activity</a>
+                  </li>
+                  <li>
+                    <a href="#get-videos" class="toc-h2 toc-link" data-title="Get Videos">Get Videos</a>
                   </li>
               </ul>
           </li>
@@ -1076,11 +1094,18 @@ response 200 OK
 
 <p>A menu item is configured to have a name which may be displayed in the app depending on the context, an icon/image which can be specified by using uploaded content or by specifying a URL. The order of items in a menu can be controlled using the position in menu. </p>
 
-<p>The Icon URL may start with 
-* file:// - this means it expects to find the file bundled with the app.
-Otherwise it will start with 
-* https:// 
-* <em>IconResourceId</em> means that that the resource is defined as a resource on the platform and should be requested</p>
+<p>The Icon URL may start with </p>
+
+<ul>
+<li>file:// - this means it expects to find the file bundled with the app.</li>
+</ul>
+
+<p>Otherwise it will start with </p>
+
+<ul>
+<li>https:// </li>
+<li><em>IconResourceId</em> means that that the resource is defined as a resource on the platform and should be requested</li>
+</ul>
 
 <blockquote>
 <p>Menu Item</p>
@@ -1235,29 +1260,29 @@ response 200 OK
 
 </code></pre><h1 id='fitness-module-api'>Fitness module API</h1><h2 id='get-exercises'>Get Exercises</h2>
 <blockquote>
-<p>GET Exercises
-```raw
-GET : /api/1/fitness/exercises
+<p>GET Exercises</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/exercises
 GET : /api/1/fitness/exercises/equipment/{equipmentId}
 GET : /api/1/fitness/exercises/level/{levelId}
 Accept: application/json
 Content-Type: application/json
-X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
-X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0</p>
-</blockquote>
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
 
-<p>response 200 OK
+response 200 OK
 [
     { exercise },
     ...
-]</p>
-<pre class="highlight plaintext"><code>
-##Get Workouts
-&gt; GET Workouts
-```raw
-GET : /api/1/fitness/workouts
+]
+
+</code></pre><h2 id='get-workouts'>Get Workouts</h2>
+<blockquote>
+<p>GET Workouts</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/workouts
 GET : /api/1/fitness/workouts/equipment/{equipmentId}
-GET : /api/1/fitness/exercises/zone/{zoneId}
+GET : /api/1/fitness/workouts/zone/{zoneId}
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -1271,25 +1296,41 @@ response 200 OK
 
 </code></pre><h2 id='get-zones'>Get Zones</h2>
 <blockquote>
-<p>GET Zones
-```raw
-GET : /api/1/fitness/zones
+<p>GET Zones</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/zones
 Accept: application/json
 Content-Type: application/json
-X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
-X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0</p>
-</blockquote>
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
 
-<p>response 200 OK
+response 200 OK
 [
     { zone },
     ...
-]</p>
-<pre class="highlight plaintext"><code>
-##Get Levels
-&gt; GET Levels
-```raw
-GET : /api/1/fitness/levels
+]
+
+</code></pre><h2 id='get-goals'>Get Goals</h2>
+<blockquote>
+<p>GET Goals</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/goals
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { goal },
+    ...
+]
+
+</code></pre><h2 id='get-levels'>Get Levels</h2>
+<blockquote>
+<p>GET Levels</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/levels
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -1303,25 +1344,37 @@ response 200 OK
 
 </code></pre><h2 id='get-devices'>Get Devices</h2>
 <blockquote>
-<p>GET Devices
-```raw
-GET : /api/1/fitness/exercises
+<p>GET Devices</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/exercises
 Accept: application/json
 Content-Type: application/json
-X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
 X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
-X-PF-EndUserAccesToken : &quot;1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97...&quot;
 response 200 OK
 [
     { Device },
     ...
-]</p>
+]
+</code></pre><h2 id='get-equipment'>Get Equipment</h2>
+<blockquote>
+<p>GET Equipment</p>
 </blockquote>
-<pre class="highlight plaintext"><code>
-##Get Activities
-&gt; GET Activities
-```raw
-GET : /api/1/fitness/activities
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/equipment
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+response 200 OK
+[
+    { equipment },
+    ...
+]
+</code></pre><h2 id='get-activities'>Get Activities</h2>
+<blockquote>
+<p>GET Activities</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/activities
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -1335,25 +1388,37 @@ response 200 OK
 
 </code></pre><h2 id='submit-activity'>Submit Activity</h2>
 <blockquote>
-<p>POST Activity
-```raw
-POST : /api/1/fitness/exercises
+<p>POST Activity</p>
+</blockquote>
+<pre class="highlight plaintext"><code>POST : /api/1/fitness/activity
 Accept: application/json
 Content-Type: application/json
-X-PF-LocalTime : 2019-09-27T12:40:33+08:00<br>
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
 X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
-X-PF-EndUserAccesToken : &quot;1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97...&quot;
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..."
 {
-    &quot;workoutId: : <workoutId>,
-    &quot;workoutTime: : &quot;2019-09-27T12:40:33+08:00&quot;,
-    &quot;duration: : <seconds>,
-}</p>
+    "workoutId: : &lt;workoutId&gt;,
+    "workoutTime: : "2019-09-27T12:40:33+08:00",
+    "duration: : &lt;seconds&gt;,
+}
+
+response 201 CREATED
+{ activity }
+
+</code></pre><h2 id='get-videos'>Get Videos</h2>
+<blockquote>
+<p>GET Videos</p>
 </blockquote>
-
-<p>response 201 CREATED
-{ activity }</p>
-<pre class="highlight plaintext"><code>
-
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/videos
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+response 200 OK
+[
+    { video },
+    ...
+]
 </code></pre>
       </div>
       <div class="dark-box">
