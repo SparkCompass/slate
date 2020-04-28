@@ -310,10 +310,10 @@
             <a href="#fitness-module-api" class="toc-h1 toc-link" data-title="Fitness module API">Fitness module API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-exercises" class="toc-h2 toc-link" data-title="Get Exercises">Get Exercises</a>
+                    <a href="#get-workouts" class="toc-h2 toc-link" data-title="Get Workouts">Get Workouts</a>
                   </li>
                   <li>
-                    <a href="#get-workouts" class="toc-h2 toc-link" data-title="Get Workouts">Get Workouts</a>
+                    <a href="#get-exercises" class="toc-h2 toc-link" data-title="Get Exercises">Get Exercises</a>
                   </li>
                   <li>
                     <a href="#get-zones" class="toc-h2 toc-link" data-title="Get Zones">Get Zones</a>
@@ -1258,31 +1258,13 @@ response 200 OK
     "actions" : [] // returns actions if the event triggers any.
 }
 
-</code></pre><h1 id='fitness-module-api'>Fitness module API</h1><h2 id='get-exercises'>Get Exercises</h2>
-<blockquote>
-<p>GET Exercises</p>
-</blockquote>
-<pre class="highlight plaintext"><code>GET : /api/1/fitness/exercises
-GET : /api/1/fitness/exercises/equipment/{equipmentId}
-GET : /api/1/fitness/exercises/level/{levelId}
-Accept: application/json
-Content-Type: application/json
-X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
-X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
-
-response 200 OK
-[
-    { exercise },
-    ...
-]
-
-</code></pre><h2 id='get-workouts'>Get Workouts</h2>
+</code></pre><h1 id='fitness-module-api'>Fitness module API</h1><h2 id='get-workouts'>Get Workouts</h2>
 <blockquote>
 <p>GET Workouts</p>
 </blockquote>
 <pre class="highlight plaintext"><code>GET : /api/1/fitness/workouts
-GET : /api/1/fitness/workouts/equipment/{equipmentId}
-GET : /api/1/fitness/workouts/zone/{zoneId}
+GET : /api/1/fitness/workouts/level/{levelId}
+GET : /api/1/fitness/workouts/goal/{goalId}
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -1291,6 +1273,25 @@ X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
 response 200 OK
 [
     { workout },
+    ...
+]
+
+</code></pre><h2 id='get-exercises'>Get Exercises</h2>
+<blockquote>
+<p>GET Exercises</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/fitness/exercises
+GET : /api/1/fitness/exercises/equipment/{equipmentId}
+GET : /api/1/fitness/exercises/zone/{zoneId}
+GET : /api/1/fitness/exercises/workout/{workoutId}/day/{day}
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+response 200 OK
+[
+    { exercise },
     ...
 ]
 
