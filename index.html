@@ -963,7 +963,7 @@ response 200 OK
         "uid": "99d196de5a9f4101be39abca489102dd"
     }
 }
-</code></pre><h2 id='update-end-user-profile'>Update End User Profile</h2><pre class="highlight plaintext"><code>POST : /api/1/enduser/update
+</code></pre><h2 id='update-end-user-profile'>Update End User Profile</h2><pre class="highlight plaintext"><code>PUT : /api/1/enduser/update
 Accept: application/json
 Content-Type: application/json
 X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
@@ -981,25 +981,6 @@ X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b
 
 
 response 200 OK
-{
-    "cacheStatus": "IN_SYNC",
-    "cacheVersion": "200421044141",
-    "endUser": {
-        "status": "ENABLED",
-        "emailAddress": "BlackBeard@dummy-tcs.com",
-        "emailConfirmationStatus": "CONFIRMED",
-        "userName": "BlackBeard",
-        "firstName": "Black",
-        "lastName": "Beard",
-        "creationTime": "2020-04-21T04:41:41.000Z",
-        "updateTime": "2020-04-21T04:41:41.000Z",
-        "attributes" : {
-            { "age", "37" },
-            { "job", "Pirate" }
-        }
-        "uid": "99d196de5a9f4101be39abca489102dd"
-    }
-}
 </code></pre><h2 id='update-end-user-profile-image'>Update End User Profile Image</h2><pre class="highlight plaintext"><code>POST : /api/1/enduser/profileImage 
 Accept: application/json
 Content-Type: application/json
