@@ -799,7 +799,12 @@ You must replace <code>`appuid`</code> with the appUid we supply you.
 <span class="o">});</span>
 </code></pre><h1 id='platform-requests'>Platform Requests</h1>
 <p>Requests can be made to the platform to sync various items like calendars, events, exhibitors/speakers, Banner menus for the home screen.</p>
-<h1 id='spark-compass-rest-api'>Spark Compass REST Api</h1><h2 id='headers'>Headers</h2>
+<h1 id='spark-compass-rest-api'>Spark Compass REST Api</h1>
+<p>To use the API you will need to request an</p>
+
+<p><em>base domain</em> - base domain to use for API calls
+<em>AppUID</em> - A UUID the uniquely defines your app for connection to the platform</p>
+<h2 id='headers'>Headers</h2>
 <p><strong>X-PF-LocalTime</strong> as an ISO String in local time</p>
 
 <ul>
@@ -812,7 +817,7 @@ You must replace <code>`appuid`</code> with the appUid we supply you.
 
 <p><strong>X-PF-EndUserAccessToken</strong> - User access token generated from successful user login</p>
 <h2 id='register-app-instance'>Register App Instance</h2>
-<p>When your application first connects to the platform it should Register an App instance:</p>
+<p>When your application first connects to the platform it should Register an App instance, note that your AppUID is required here:</p>
 <pre class="highlight plaintext"><code>POST : /api/1/registerAppInstance
 Accept: application/json
 Content-Type: application/json
