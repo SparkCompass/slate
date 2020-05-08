@@ -1333,6 +1333,22 @@ response 200 OK
 </code></pre><h2 id='geolocation'>Geolocation</h2>
 <p>Returned in an Array from /api/1/geolocations endpoint.</p>
 
+<p>Geofence Types:</p>
+
+<ul>
+<li>CIRCLE - defined by geofenceCenter and geofenceRadius</li>
+<li>POLYGON - defined by the array of points in geofencePoints</li>
+</ul>
+
+<p>Variables:</p>
+
+<ul>
+<li><p>geofencePoints - an Array of points that define the outline of a Polygon fence</p></li>
+<li><p>displayLocation - display this geolocation in a mapview with a pin</p></li>
+<li><p>displayGeofence - display the fence for this geolocation in a mapview</p></li>
+<li><p>iconUrl - the icon to use for a pin in a mapview</p></li>
+</ul>
+
 <blockquote>
 <p>Geolocation</p>
 </blockquote>
