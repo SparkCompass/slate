@@ -307,6 +307,12 @@
                   <li>
                     <a href="#posting-events" class="toc-h2 toc-link" data-title="Posting Events">Posting Events</a>
                   </li>
+                  <li>
+                    <a href="#get-geolocations" class="toc-h2 toc-link" data-title="Get Geolocations">Get Geolocations</a>
+                  </li>
+                  <li>
+                    <a href="#geolocation" class="toc-h2 toc-link" data-title="Geolocation">Geolocation</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -1300,6 +1306,53 @@ response 200 OK
     "actions" : [] // returns actions if the event triggers any.
 }
 
+</code></pre><h2 id='get-geolocations'>Get Geolocations</h2><pre class="highlight plaintext"><code>GET : /api/1/geolocations?cacheVersion=
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b4fa3c97..." (if logged in)
+cacheVersion : (optional cache version from previous request)
+
+response 200 OK
+{
+    "cacheStatus": "OUT_OF_SYNC",
+    "cacheVersion": "200421044141",
+    "geoloctions":[ { Geolocation }, ...] 
+}
+
+if you keep the list of geoloctions along with the cacheVersion, you can pass the cacheVersion at the next call.
+If the definitions on the server have not changed for that cache version then the response will be:
+response 200 OK
+{
+    "cacheStatus": "IN_SYNC",
+    "cacheVersion": "200421044141",
+    "geoloctions":[] // in this case your local geolocations from last call match the server definitions.
+}
+
+</code></pre><h2 id='geolocation'>Geolocation</h2>
+<p>Returned in an Array from /api/1/geolocations endpoint.</p>
+<pre class="highlight plaintext"><code>{
+    "uid" : "46deb1da7cbf482790aceda3493a1196",
+    "status" : "ENABLED",
+    "name: "Toms house",
+    "alternateDisplayName" : "Home Base",
+    "description" : "A geofence around home base",
+    "latitude" : -45.0000,
+    "longitude" : 174.000,
+    "geofenceType" : "CIRCLE", /* or "POLYGON" */
+    "geofenceRadius" : 50.0, /* meters */
+    "displayLocation" : true, /* or false, */
+    "displayGeofence" : true, /* or false, */
+    "iconUrl" : "http://url",
+    "creationTime" : "2019-09-27T12:40:33Z",
+    "updateTime" : "2019-09-27T12:40:33Z",
+    "geofencePoints" : [{ GeofencePoint }, ...]
+}
+</code></pre><h3 id='geofencepoint'>GeofencePoint</h3><pre class="highlight plaintext"><code>{
+    "latitude" : &lt;lat&gt;,
+    "longitude" : &lt;lon&gt;
+}
 </code></pre><h1 id='fitness-module-api'>Fitness module API</h1><h2 id='get-workouts'>Get Workouts</h2>
 <blockquote>
 <p>GET Workouts</p>
