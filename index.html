@@ -290,6 +290,9 @@
                     <a href="#change-email" class="toc-h2 toc-link" data-title="Change Email">Change Email</a>
                   </li>
                   <li>
+                    <a href="#app-uid-for-code" class="toc-h2 toc-link" data-title="App UID for code">App UID for code</a>
+                  </li>
+                  <li>
                     <a href="#get-a-menu-by-name" class="toc-h2 toc-link" data-title="GET a menu by name">GET a menu by name</a>
                   </li>
                   <li>
@@ -1052,6 +1055,24 @@ X-PF-EndUserAccesToken : "1860d04f5d7a90072e57ff8f6baa516a8a7273679f396a5e3eba2b
 }
 
 response 200 OK
+
+</code></pre><h2 id='app-uid-for-code'>App UID for code</h2>
+<blockquote>
+<p>Get the UID for an app by code</p>
+</blockquote>
+<pre class="highlight plaintext"><code>GET : /api/1/app/getUID?appCode=&lt;appCode&gt;
+Accept: application/json
+Content-Type: application/json
+X-PF-LocalTime : 2019-09-27T12:40:33+08:00  
+X-PF-AppInstanceUID : 53b1fb9ae29349ffbff3ff02230d56b0
+
+appCode = appCode corresponding to the app to get the UID for
+
+response 200 OK
+{
+    "appUid": "6c8cc305f55049e68ca5c4064a29f2b2",
+    "name": "App Name"
+}
 
 </code></pre><h2 id='get-a-menu-by-name'>GET a menu by name</h2>
 <p>Menus are lists of named items with associated behaviour described as <strong>actions</strong> which the app should perform when the user taps the menu item within whatever context that item exists.</p>
